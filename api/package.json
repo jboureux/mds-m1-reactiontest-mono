@@ -1,0 +1,33 @@
+{
+    "name": "api",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "npx nodemon --exec tsx src/app.ts",
+        "test": "jest . --coverage --coverageFolder=coverage --collectCoverageFrom='src/**/*.ts'"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@auth/express": "^0.7.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.0",
+        "mongoose": "^8.7.0",
+        "nodemon": "^3.1.7",
+        "typescript": "^5.6.2"
+    },
+    "devDependencies": {
+        "@jest/globals": "^29.7.0",
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "@types/mongoose": "^5.11.96",
+        "@types/node": "^22.7.4",
+        "globals": "^15.10.0",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.2.5",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.19.1"
+    }
+}

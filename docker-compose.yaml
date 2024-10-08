@@ -1,0 +1,24 @@
+services:
+    api:
+        build:
+            context: .
+            dockerfile: ./docker/API-DEV.Dockerfile
+        ports:
+            - "1234:1234"
+        volumes:
+            - "./api:/api"
+        environment:
+            - DATABASE_URL=mongodb://database/test
+        networks:
+            - reaction-test-mono-repo-back
+
+    database:
+        image: mongo:latest
+        ports:
+            - "27117:27017"
+        networks:
+            - reaction-test-mono-repo-back
+
+networks:
+    reaction-test-mono-repo-back:
+        driver: bridge
