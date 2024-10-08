@@ -22,7 +22,7 @@ jobs:
               run: npm install --prefix api
 
             - name: Run tests
-              run: npm run test --prefix api
+              run: npm run test:ci --prefix api
 
             - name: Run Prettier
               run: npm run prettier --prefix api
