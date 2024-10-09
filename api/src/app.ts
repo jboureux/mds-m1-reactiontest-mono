@@ -2,7 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import usersRouter from './controllers/auth.controller';
+import usersRouter from "./controllers/auth.controller";
 import { TimerRouter } from "./controllers/timer.controller";
 
 dotenv.config();
@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use('/users', usersRouter);
+app.use("/users", usersRouter);
 app.use("/timer", TimerRouter);
 
 const port = 1234;
