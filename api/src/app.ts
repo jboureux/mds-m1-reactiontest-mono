@@ -2,6 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import { TimerRouter } from "../controllers/timer.controller";
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use('/timer', timerRouter);
 app.use('/users', usersRouter);
 
 const port = 1234;
+
+app.use("/timer", TimerRouter);
 
 app.listen(port, async () => {
     await mongoose.connect(`${process.env.DATABASE_URL}`);
