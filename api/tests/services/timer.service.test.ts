@@ -17,6 +17,6 @@ describe("getUserTimers tests...", () => {
 });
 
 describe("clearUserTimers tests...", () => {
-    test("clearUserTimers should return an empty array after deleting the timers a user has", async () => {});
+    test("clearUserTimers should return an object {acknowledged: true, deletedCount: n} after deleting the timers a user has", async () => {});
     test("clearUserTimers should throw an error when trying to delete the timers for a non-existing user", async () => {});
 });

@@ -3,7 +3,7 @@ import Timer from "../models/timer.models";
 
 export async function uploadTimer(
     timer: number,
-    userId: mongoose.Schema.Types.ObjectId,
+    userId: mongoose.Types.ObjectId,
 ) {
     if (timer <= 0) {
         throw new Error("The timer can't be lower or equal to 0 !");
@@ -12,10 +12,10 @@ export async function uploadTimer(
     return await newTimer.save();
 }
 
-export async function getUserTimers(userId: mongoose.Schema.Types.ObjectId) {
+export async function getUserTimers(userId: mongoose.Types.ObjectId) {
     return await Timer.find({ user: userId });
 }
 
-export async function clearUserTimers(userId: mongoose.Schema.Types.ObjectId) {
+export async function clearUserTimers(userId: mongoose.Types.ObjectId) {
     return await Timer.deleteMany({ user: userId });
 }
