@@ -22,3 +22,5 @@ app.listen(port, async () => {
     await mongoose.connect(`${process.env.DATABASE_URL}`);
     console.log(`App running on port ${port}`);
 });
+
+export default app;

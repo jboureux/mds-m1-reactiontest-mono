@@ -4,6 +4,7 @@ import { registerUser } from "../../services/auth.services";
 import User from "../../models/user.models";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { describe, expect, it, jest } from "@jest/globals";
 
 
 // Mock des dépendances

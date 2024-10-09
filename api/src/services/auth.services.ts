@@ -1,8 +1,18 @@
 
-
 import User from "../models/user.models";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
+export interface RegisterUserForm {
+  email: string;
+  username: string;
+}
+
+export interface RegisterUserResponse {
+  token: string;
+  savedUser: RegisterUserForm;
+}
+
 
 const jwtKey = process.env.JWT_SECRET || "secret";
 
@@ -12,7 +22,7 @@ const generateToken = (id: string, email: string) => {
   });
 };
 
-const loginUser = async (email: string, password: string) => {
+const loginUser = async (email: string, password: string): Promise<RegisterUserResponse> => {
   const user = await User.findOne({ email });
   if (!user) {
     throw new Error("Invalid credentials");
@@ -27,7 +37,7 @@ const loginUser = async (email: string, password: string) => {
   return { token };
 };
 
-const registerUser = async (username: string, email: string, password: string) => {
+const registerUser = async (username: string, email: string, password: string): Promise<RegisterUserResponse> => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new Error("User already exists");
