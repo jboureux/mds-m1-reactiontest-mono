@@ -1,56 +1,84 @@
-// tests/user.service.test.ts
-
-import { registerUser } from "../../../src/services/auth.services";
-import User from "../../../src/models/user.models";
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import {
+    describe,
+    it,
+    expect,
+    beforeAll,
+    afterAll,
+    afterEach,
+} from "@jest/globals";
+import { registerUser } from "../../../src/services/auth.service";
+import User from "../../../src/models/user.models";
+import { log } from "console";
 
-import { jest, describe, it, expect } from "@jest/globals";
+// Connexion à la base de données
+beforeAll(async () => {
+    await mongoose.connect(`${process.env.DATABASE_URL}_test_users`, {});
+});
 
-// Mock des dépendances
-jest.mock("../../../src/models/user.models");
-jest.mock("bcryptjs");
-jest.mock("jsonwebtoken");
+// Nettoyage après chaque test
+afterEach(async () => {
+    await User.deleteMany({});
+});
 
-describe("registerUser", () => {
+// Déconnexion après tous les tests
+afterAll(async () => {
+    await mongoose.connection.db?.dropDatabase();
+    await mongoose.connection.close();
+});
+
+function checkUserFields(expectedFields: Record<string, any>, actualUser: any) {
+    for (const field in expectedFields) {
+        expect(actualUser).toHaveProperty(field, expectedFields[field]);
+    }
+}
+
+describe("registerUser tests", () => {
     it("devrait renvoyer une erreur si l'utilisateur existe déjà", async () => {
-        (
-            User.findOne as jest.MockedFunction<typeof User.findOne>
-        ).mockResolvedValue({ email: "test@test.com" });
+        const existingUser = new User({
+            username: "testuser",
+            email: "test@test.com",
+            password: bcrypt.hashSync("password123", 10),
+        });
+        await existingUser.save();
 
         await expect(
-            registerUser("username", "test@test.com", "password123"),
+            registerUser("newuser", "test@test.com", "password123"),
         ).rejects.toThrow("User already exists");
     });
 
     it("devrait créer un nouvel utilisateur et renvoyer un token", async () => {
-        (
-            User.findOne as jest.MockedFunction<typeof User.findOne>
-        ).mockResolvedValue(null);
-
-        (bcrypt.hashSync as jest.Mock).mockReturnValue("hashedPassword");
-
-        const mockSavedUser = {
-            id: "1",
-            email: "test@test.com",
-            username: "username",
-            password: "hashedPassword",
-            save: jest.fn(),
-        };
-
-        (User.prototype.save as jest.MockedFunction<any>).mockResolvedValue(
-            mockSavedUser,
-        );
-        (jwt.sign as jest.Mock).mockReturnValue("mockedToken");
-
         const result = await registerUser(
-            "username",
-            "test@test.com",
+            "newuser",
+            "new@test.com",
             "password123",
         );
 
-        expect(result).toHaveProperty("token", "mockedToken");
-        expect(result.savedUser.email).toBe("test@test.com");
-        expect(result.savedUser.password).toBe("hashedPassword");
+        const savedUser = await User.findOne({ email: "new@test.com" });
+        expect(savedUser).toBeDefined();
+        expect(savedUser?.email).toBe("new@test.com");
+
+        const isPasswordValid = bcrypt.compareSync(
+            "password123",
+            savedUser?.password!,
+        );
+        expect(isPasswordValid).toBe(true);
+
+        const expectedFields = {
+            email: "new@test.com",
+            username: "newuser",
+            password: savedUser?.password,
+        };
+
+        checkUserFields(expectedFields, savedUser);
+
+        expect(result).toHaveProperty("token");
+        const decoded = jwt.verify(
+            result.token,
+            process.env.JWT_SECRET || "secret",
+        );
+        expect(decoded).toHaveProperty("email", "new@test.com");
     });
 });
