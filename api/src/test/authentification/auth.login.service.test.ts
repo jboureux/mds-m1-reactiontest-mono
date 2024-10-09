@@ -3,8 +3,6 @@ import { loginUser } from "../../services/auth.services";
 import User, { IUser } from "../../models/user.models";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { describe, expect, it, jest } from "@jest/globals";
-
 
 
 
