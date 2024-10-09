@@ -7,7 +7,7 @@
         "test:dev": "jest . --coverage --coverageFolder=coverage --collectCoverageFrom='src/**/*.ts'",
         "test:ci": "jest . --coverage --collectCoverageFrom='src/**/*.ts' --passWithNoTests",
         "lint": "npx eslint .",
-        "prettier": "npx prettier --write ."
+        "prettier": "npx prettier --write \"(src/**/*.ts|tests/**/*.ts)\""
     },
     "author": "",
     "license": "ISC",
