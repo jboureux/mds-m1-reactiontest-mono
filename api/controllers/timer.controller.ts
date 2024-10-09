@@ -1,10 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import {
-    clearUserTimers,
-    getUserTimers,
-    uploadTimer,
-} from "../src/services/timer.service";
+import TimerService from "../src/services/timer.service";
 
 const router = express.Router();
 
@@ -22,7 +18,7 @@ router.post("/submit", async (req, res) => {
     //check authentication and get userId
 
     try {
-        const timer = await uploadTimer(
+        const timer = await TimerService.uploadTimer(
             reactionTime,
             new mongoose.Types.ObjectId("67066e20c0db3a6728fa99c6"),
         );
@@ -34,7 +30,7 @@ router.post("/submit", async (req, res) => {
 router.get("/me", async (req, res) => {
     //check auth and get UserID
     try {
-        const timers = await getUserTimers(
+        const timers = await TimerService.getUserTimers(
             new mongoose.Types.ObjectId("67066e20c0db3a6728fa99c6"),
         );
 
@@ -46,7 +42,7 @@ router.get("/me", async (req, res) => {
 router.delete("/clear", async (req, res) => {
     //check auth and get UserID
     try {
-        const timers = await clearUserTimers(
+        const timers = await TimerService.clearUserTimers(
             new mongoose.Types.ObjectId("67066e20c0db3a6728fa99c6"),
         );
 
