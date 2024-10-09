@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import TimerService from "../src/services/timer.service";
+import TimerService from "../services/timer.service";
 
 const router = express.Router();
 
