@@ -4,9 +4,9 @@ import { jest, describe, it, expect } from "@jest/globals";
 describe("checkBody", () => {
     it("devrait retourner true si tous les champs sont présents et valides", () => {
         const body = {
-            username: "testuser",
-            email: "test@test.com",
-            password: "password123",
+            username: expect.any(String),
+            email: expect.any(String),
+            password: expect.any(String),
         };
         const keys = ["username", "email", "password"];
 
@@ -16,8 +16,8 @@ describe("checkBody", () => {
 
     it("devrait retourner false si un champ est manquant", () => {
         const body = {
-            username: "testuser",
-            email: "test@test.com",
+            username: expect.any(String),
+            email: expect.any(String),
         };
         const keys = ["username", "email", "password"];
 
@@ -27,8 +27,8 @@ describe("checkBody", () => {
 
     it("devrait retourner false si un champ est vide", () => {
         const body = {
-            username: "testuser",
-            email: "test@test.com",
+            username: expect.any(String),
+            email: expect.any(String),
             password: "",
         };
         const keys = ["username", "email", "password"];
@@ -39,9 +39,9 @@ describe("checkBody", () => {
 
     it("devrait retourner false si un champ contient uniquement des espaces", () => {
         const body = {
-            username: "testuser",
+            username: expect.any(String),
             email: "    ",
-            password: "password123",
+            password: expect.any(String),
         };
         const keys = ["username", "email", "password"];
 
