@@ -1,13 +1,13 @@
-import mongoose, { Document, Schema, Model, Collection } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 
 interface ITimer extends Document {
     reactionTime: Number;
-    user: Collection;
+    user: Object;
 }
 
 const timerSchema: Schema<ITimer> = new mongoose.Schema({
     reactionTime: { type: Number },
-    user: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 });
 
 const Timer: Model<ITimer> = mongoose.model<ITimer>("timer", timerSchema);
