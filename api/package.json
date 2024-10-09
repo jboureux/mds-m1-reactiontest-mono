@@ -3,12 +3,12 @@
 	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "npx nodemon --exec tsx src/app.ts",
-		"test:dev": "jest . --coverage --coverageFolder=coverage --collectCoverageFrom='src//*.ts'",
-        "test:ci": "jest . --coverage --collectCoverageFrom='src//.ts' --passWithNoTests",
+        "dev": "npx nodemon --exec tsx src/app.ts",
+        "test:dev": "jest . --coverage --coverageFolder=coverage --collectCoverageFrom='src/**/*.ts'",
+        "test:ci": "jest . --coverage --collectCoverageFrom='src/**/*.ts' --passWithNoTests",
         "lint": "npx eslint .",
-        "prettier": "npx prettier --write '(src/**/.ts|tests/*/.ts)'"
-	},
+        "prettier": "npx prettier --write \"(src/**/*.ts|tests/**/*.ts)\""
+    },
 	"author": "",
 	"license": "ISC",
 	"description": "",
