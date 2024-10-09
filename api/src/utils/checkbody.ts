@@ -1,20 +1,18 @@
-    function checkBody(body:any, keys:string[]) {
-        let isValid = true;
-      
-        const regex = /^\s*$/; 
+function checkBody(body: any, keys: string[]) {
+    let isValid = true;
 
-        for (const field of keys) {
-          if (body[field]=== "string") {
-        
-            body[field] = body[field].replace(/\s+/g, ' ').trim(); 
-          }
-          if (!body[field] || body[field] === '' || regex.test(body[field])) {
-            isValid = false;
-          }
+    const regex = /^\s*$/;
+
+    for (const field of keys) {
+        if (body[field] === "string") {
+            body[field] = body[field].replace(/\s+/g, " ").trim();
         }
-      
-        return isValid;
-        
-      }
-  
- export default checkBody;
+        if (!body[field] || body[field] === "" || regex.test(body[field])) {
+            isValid = false;
+        }
+    }
+
+    return isValid;
+}
+
+export default checkBody;
