@@ -7,13 +7,12 @@
         "test:dev": "jest . --coverage --coverageFolder=coverage --collectCoverageFrom='src/**/*.ts'",
         "test:ci": "jest . --coverage --collectCoverageFrom='src/**/*.ts' --passWithNoTests",
         "lint": "npx eslint .",
-        "prettier": "npx prettier --write ."
+        "prettier": "npx prettier --write \"(src/**/*.ts|tests/**/*.ts)\""
     },
     "author": "",
     "license": "ISC",
     "description": "",
     "dependencies": {
-        "@auth/express": "^0.7.0",
         "cors": "^2.8.5",
         "dotenv": "^16.4.5",
         "express": "^4.21.0",
