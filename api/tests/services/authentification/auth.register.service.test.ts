@@ -1,14 +1,14 @@
 // tests/user.service.test.ts
 
-import { registerUser } from "../../services/auth.services";
-import User from "../../models/user.models";
+import { registerUser } from "../../../src/services/auth.services";
+import User from "../../../src/models/user.models";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import { jest, describe, it, expect } from "@jest/globals";
 
 // Mock des dépendances
-jest.mock("../../models/user.models");
+jest.mock("../../../src/models/user.models");
 jest.mock("bcryptjs");
 jest.mock("jsonwebtoken");
 
