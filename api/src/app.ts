@@ -5,9 +5,16 @@ import mongoose from "mongoose";
 
 dotenv.config();
 
+import usersRouter from './controllers/auth.controler';
+import timerRouter from './controllers/auth.controler';
+
+
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use('/timer', timerRouter);
+app.use('/users', usersRouter);
 
 const port = 1234;
 
