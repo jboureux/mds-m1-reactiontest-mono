@@ -1,51 +1,65 @@
-import { loginUser } from "../../../src/services/auth.services";
-import User, { IUser } from "../../../src/models/user.models";
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import {
+    describe,
+    it,
+    expect,
+    beforeAll,
+    afterAll,
+    afterEach,
+} from "@jest/globals";
+import { loginUser } from "../../../src/services/auth.service";
+import User from "../../../src/models/user.models";
 
-import { jest, describe, it, expect } from "@jest/globals";
+beforeAll(async () => {
+    await mongoose.connect(`${process.env.DATABASE_URL}_test_users`, {});
+});
 
-jest.mock("../../../src/models/user.models");
-jest.mock("bcryptjs");
-jest.mock("jsonwebtoken");
+afterEach(async () => {
+    await User.deleteMany({});
+});
 
-describe("loginUser", () => {
+afterAll(async () => {
+    await mongoose.connection.db?.dropDatabase();
+    await mongoose.connection.close();
+});
+
+describe("loginUser tests", () => {
     it("devrait renvoyer une erreur si l'utilisateur n'est pas trouvé", async () => {
-        (
-            User.findOne as jest.MockedFunction<typeof User.findOne>
-        ).mockResolvedValue(null);
         await expect(loginUser("test@test.com", "password123")).rejects.toThrow(
             "Invalid credentials",
         );
     });
 
     it("devrait renvoyer une erreur si le mot de passe est incorrect", async () => {
-        const mockUser = {
-            password: bcrypt.hashSync("wrongpassword", 10),
-        } as IUser;
-        (
-            User.findOne as jest.MockedFunction<typeof User.findOne>
-        ).mockResolvedValue(mockUser);
-        (bcrypt.compareSync as jest.Mock).mockReturnValue(false);
+        const existingUser = new User({
+            username: "testuser",
+            email: "test@test.com",
+            password: bcrypt.hashSync("correctpassword", 10),
+        });
+        await existingUser.save();
 
-        await expect(loginUser("test@test.com", "password123")).rejects.toThrow(
-            "Invalid credentials",
-        );
+        await expect(
+            loginUser("test@test.com", "wrongpassword"),
+        ).rejects.toThrow("Invalid credentials");
     });
 
     it("devrait renvoyer un token si les identifiants sont corrects", async () => {
-        const mockUser = {
-            id: "1",
+        const existingUser = new User({
+            username: "testuser",
             email: "test@test.com",
             password: bcrypt.hashSync("password123", 10),
-        } as IUser;
-        (
-            User.findOne as jest.MockedFunction<typeof User.findOne>
-        ).mockResolvedValue(mockUser);
-        (bcrypt.compareSync as jest.Mock).mockReturnValue(true);
-        (jwt.sign as jest.Mock).mockReturnValue("mockedToken");
+        });
+        await existingUser.save();
 
         const result = await loginUser("test@test.com", "password123");
-        expect(result).toHaveProperty("token", "mockedToken");
+
+        expect(result).toHaveProperty("token");
+        const decoded = jwt.verify(
+            result.token,
+            process.env.JWT_SECRET || "secret",
+        );
+        expect(decoded).toHaveProperty("email", "test@test.com");
     });
 });

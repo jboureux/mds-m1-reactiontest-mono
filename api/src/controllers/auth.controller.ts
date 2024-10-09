@@ -1,6 +1,6 @@
 import express from "express";
 import checkBody from "../utils/checkbody";
-import { loginUser, registerUser } from "../services/auth.services";
+import { loginUser, registerUser } from "../services/auth.service";
 
 const Router = express.Router();
 
