@@ -11,7 +11,7 @@ router.post("/submit", async (req, res) => {
     if (reactionTime === undefined) {
         res.status(400).send({
             status: 400,
-            error: "You should provide a 'reactionTime' in the request body",
+            error: "You should provide a 'reactionTime' in the request body"
         });
         return;
     }
@@ -19,7 +19,7 @@ router.post("/submit", async (req, res) => {
     if (!req.headers.authorization) {
         res.status(401).send({
             status: 401,
-            error: "You need to be authenticated",
+            error: "You need to be authenticated"
         });
         return;
     }
@@ -29,7 +29,7 @@ router.post("/submit", async (req, res) => {
     if (!decodedToken.valid) {
         res.status(401).send({
             status: 401,
-            error: `Authentication error: ${decodedToken.error}`,
+            error: `Authentication error: ${decodedToken.error}`
         });
         return;
     }
@@ -37,7 +37,7 @@ router.post("/submit", async (req, res) => {
     try {
         const timer = await TimerService.uploadTimer(
             reactionTime,
-            new mongoose.Types.ObjectId(decodedToken.decoded?.id),
+            new mongoose.Types.ObjectId(decodedToken.decoded?.id)
         );
         res.status(201).send(timer);
     } catch (e) {
@@ -49,7 +49,7 @@ router.get("/me", async (req, res) => {
     if (!req.headers.authorization) {
         res.status(401).send({
             status: 401,
-            error: "You need to be authenticated",
+            error: "You need to be authenticated"
         });
         return;
     }
@@ -60,14 +60,14 @@ router.get("/me", async (req, res) => {
     if (!decodedToken.valid) {
         res.status(401).send({
             status: 401,
-            error: `Authentication error: ${decodedToken.error}`,
+            error: `Authentication error: ${decodedToken.error}`
         });
         return;
     }
 
     try {
         const timers = await TimerService.getUserTimers(
-            new mongoose.Types.ObjectId(decodedToken.decoded?.id),
+            new mongoose.Types.ObjectId(decodedToken.decoded?.id)
         );
 
         res.status(200).send(timers);
@@ -80,7 +80,7 @@ router.delete("/clear", async (req, res) => {
     if (!req.headers.authorization) {
         res.status(401).send({
             status: 401,
-            error: "You need to be authenticated",
+            error: "You need to be authenticated"
         });
         return;
     }
@@ -91,14 +91,14 @@ router.delete("/clear", async (req, res) => {
     if (!decodedToken.valid) {
         res.status(401).send({
             status: 401,
-            error: `Authentication error: ${decodedToken.error}`,
+            error: `Authentication error: ${decodedToken.error}`
         });
         return;
     }
 
     try {
         const timers = await TimerService.clearUserTimers(
-            new mongoose.Types.ObjectId(decodedToken.decoded?.id),
+            new mongoose.Types.ObjectId(decodedToken.decoded?.id)
         );
 
         res.status(200).send(timers);

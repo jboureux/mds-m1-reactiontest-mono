@@ -7,7 +7,7 @@ import {
     expect,
     beforeAll,
     afterAll,
-    afterEach,
+    afterEach
 } from "@jest/globals";
 import { loginUser } from "../../../src/services/auth.service";
 import User from "../../../src/models/user.models";
@@ -28,7 +28,7 @@ afterAll(async () => {
 describe("loginUser tests", () => {
     it("devrait renvoyer une erreur si l'utilisateur n'est pas trouvé", async () => {
         await expect(loginUser("test@test.com", "password123")).rejects.toThrow(
-            "Invalid credentials",
+            "Invalid credentials"
         );
     });
 
@@ -36,12 +36,12 @@ describe("loginUser tests", () => {
         const existingUser = new User({
             username: "testuser",
             email: "test@test.com",
-            password: bcrypt.hashSync("correctpassword", 10),
+            password: bcrypt.hashSync("correctpassword", 10)
         });
         await existingUser.save();
 
         await expect(
-            loginUser("test@test.com", "wrongpassword"),
+            loginUser("test@test.com", "wrongpassword")
         ).rejects.toThrow("Invalid credentials");
     });
 
@@ -49,7 +49,7 @@ describe("loginUser tests", () => {
         const existingUser = new User({
             username: "testuser",
             email: "test@test.com",
-            password: bcrypt.hashSync("password123", 10),
+            password: bcrypt.hashSync("password123", 10)
         });
         await existingUser.save();
 
@@ -58,7 +58,7 @@ describe("loginUser tests", () => {
         expect(result).toHaveProperty("token");
         const decoded = jwt.verify(
             result.token,
-            process.env.JWT_SECRET || "secret",
+            process.env.JWT_SECRET || "secret"
         );
         expect(decoded).toHaveProperty("email", "test@test.com");
     });

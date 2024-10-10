@@ -6,7 +6,7 @@ describe("checkBody", () => {
         const body = {
             username: expect.any(String),
             email: expect.any(String),
-            password: expect.any(String),
+            password: expect.any(String)
         };
         const keys = ["username", "email", "password"];
 
@@ -17,7 +17,7 @@ describe("checkBody", () => {
     it("devrait retourner false si un champ est manquant", () => {
         const body = {
             username: expect.any(String),
-            email: expect.any(String),
+            email: expect.any(String)
         };
         const keys = ["username", "email", "password"];
 
@@ -29,7 +29,7 @@ describe("checkBody", () => {
         const body = {
             username: expect.any(String),
             email: expect.any(String),
-            password: "",
+            password: ""
         };
         const keys = ["username", "email", "password"];
 
@@ -41,7 +41,7 @@ describe("checkBody", () => {
         const body = {
             username: expect.any(String),
             email: "    ",
-            password: expect.any(String),
+            password: expect.any(String)
         };
         const keys = ["username", "email", "password"];
 
@@ -53,7 +53,7 @@ describe("checkBody", () => {
         const body = {
             username: "    testuser    ", // Espaces en trop
             email: "   test@test.com  ",
-            password: "  password123 ",
+            password: "  password123 "
         };
         const keys = ["username", "email", "password"];
 

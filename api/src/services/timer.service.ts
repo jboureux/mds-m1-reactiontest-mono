@@ -11,7 +11,7 @@ class TimerService {
         const user = await User.findById(userId);
         if (!user) {
             throw new Error(
-                "You can't submit a Timer for a non-existing user !",
+                "You can't submit a Timer for a non-existing user !"
             );
         }
 
@@ -23,7 +23,7 @@ class TimerService {
         const user = await User.findById(userId);
         if (!user) {
             throw new Error(
-                "You can't get the Timers for a non-existing user !",
+                "You can't get the Timers for a non-existing user !"
             );
         }
 
@@ -34,7 +34,7 @@ class TimerService {
         const user = await User.findById(userId);
         if (!user) {
             throw new Error(
-                "You can't delete Timers for a non-existing user !",
+                "You can't delete Timers for a non-existing user !"
             );
         }
 
