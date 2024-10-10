@@ -5,7 +5,7 @@ import User from "../models/user.models";
 const generateToken = (id: string, email: string) => {
     const jwtKey = process.env.JWT_SECRET || "secret";
     return jwt.sign({ id, email }, jwtKey, {
-        expiresIn: "30m",
+        expiresIn: "30m"
     });
 };
 
@@ -27,7 +27,7 @@ const loginUser = async (email: string, password: string) => {
 const registerUser = async (
     username: string,
     email: string,
-    password: string,
+    password: string
 ) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -37,11 +37,14 @@ const registerUser = async (
     const newUser = new User({
         username,
         email,
-        password: bcrypt.hashSync(password, 10),
+        password: bcrypt.hashSync(password, 10)
     });
 
     const savedUser = await newUser.save();
     const token = generateToken(savedUser.id.toString(), savedUser.email);
+
+    savedUser.token = token;
+    await savedUser.save();
 
     return { token, savedUser };
 };
