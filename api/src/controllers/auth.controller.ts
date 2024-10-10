@@ -11,7 +11,7 @@ Router.post("/login", async (req, res) => {
     if (!checkBody(req.body, requiredBody)) {
         res.status(400).json({
             result: false,
-            error: "Missing or empty field",
+            error: "Missing or empty field"
         });
         return;
     }
@@ -30,7 +30,7 @@ Router.post("/register", async (req, res) => {
     if (!checkBody(req.body, requiredBody)) {
         res.status(400).json({
             result: false,
-            error: "Missing or empty field",
+            error: "Missing or empty field"
         });
         return;
     }
@@ -45,7 +45,7 @@ Router.post("/register", async (req, res) => {
         const { token, savedUser } = await registerUser(
             username,
             email,
-            password,
+            password
         );
         res.status(201).json({ result: true, token, user: savedUser });
     } catch (error) {

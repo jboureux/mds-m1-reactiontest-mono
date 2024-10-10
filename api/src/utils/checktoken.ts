@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 export const validateToken = (
-    token: string,
+    token: string
 ): {
     valid: boolean;
     decoded?: { email: string; id: string };

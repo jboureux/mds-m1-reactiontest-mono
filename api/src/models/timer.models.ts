@@ -7,7 +7,7 @@ interface ITimer extends Document {
 
 const timerSchema: Schema<ITimer> = new mongoose.Schema({
     reactionTime: { type: Number },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" }
 });
 
 const Timer: Model<ITimer> = mongoose.model<ITimer>("timer", timerSchema);

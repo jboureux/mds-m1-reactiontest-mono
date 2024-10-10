@@ -7,7 +7,7 @@ import {
     expect,
     beforeAll,
     afterAll,
-    afterEach,
+    afterEach
 } from "@jest/globals";
 import { registerUser } from "../../../src/services/auth.service";
 import User from "../../../src/models/user.models";
@@ -39,12 +39,12 @@ describe("registerUser tests", () => {
         const existingUser = new User({
             username: "testuser",
             email: "test@test.com",
-            password: bcrypt.hashSync("password123", 10),
+            password: bcrypt.hashSync("password123", 10)
         });
         await existingUser.save();
 
         await expect(
-            registerUser("newuser", "test@test.com", "password123"),
+            registerUser("newuser", "test@test.com", "password123")
         ).rejects.toThrow("User already exists");
     });
 
@@ -52,7 +52,7 @@ describe("registerUser tests", () => {
         const result = await registerUser(
             "newuser",
             "new@test.com",
-            "password123",
+            "password123"
         );
 
         const savedUser = await User.findOne({ email: "new@test.com" });
@@ -60,14 +60,14 @@ describe("registerUser tests", () => {
 
         const isPasswordValid = bcrypt.compareSync(
             "password123",
-            savedUser?.password!,
+            savedUser?.password!
         );
         expect(isPasswordValid).toBe(true);
 
         const expectedFields = {
             email: "new@test.com",
             username: "newuser",
-            password: savedUser?.password,
+            password: savedUser?.password
         };
 
         checkUserFields(expectedFields, savedUser);
@@ -75,7 +75,7 @@ describe("registerUser tests", () => {
         expect(result).toHaveProperty("token");
         const decoded = jwt.verify(
             result.token,
-            process.env.JWT_SECRET || "secret",
+            process.env.JWT_SECRET || "secret"
         );
         expect(decoded).toHaveProperty("email", "new@test.com");
     });

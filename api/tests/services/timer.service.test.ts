@@ -4,9 +4,9 @@ import {
     beforeAll,
     describe,
     expect,
-    test,
+    test
 } from "@jest/globals";
-import { randomInt } from "crypto";
+import { randomUUID } from "crypto";
 import mongoose from "mongoose";
 import Timer from "../../src/models/timer.models";
 import User from "../../src/models/user.models";
@@ -19,7 +19,7 @@ beforeAll(async () => {
     const user = new User({
         username: "Test",
         email: "test@test.test",
-        password: "test",
+        password: randomUUID()
     });
     await user.save();
     userId = user._id as mongoose.Types.ObjectId;
@@ -35,12 +35,12 @@ describe("uploadTimer tests...", () => {
         await Timer.deleteMany({});
     });
     test("a Timer object should be present in database after saving a new Timer", async () => {
-        const reactionTime = randomInt(25);
+        const reactionTime = 25.2;
         await TimerService.uploadTimer(reactionTime, userId);
 
         const uploadedTimer = await Timer.findOne({
             reactionTime: reactionTime,
-            user: userId,
+            user: userId
         });
 
         expect(uploadedTimer).toBeDefined();
@@ -50,13 +50,13 @@ describe("uploadTimer tests...", () => {
         await expect(
             TimerService.uploadTimer(
                 12,
-                new mongoose.Types.ObjectId("123456789012345678901234"),
-            ),
+                new mongoose.Types.ObjectId("123456789012345678901234")
+            )
         ).rejects.toThrow("You can't submit a Timer for a non-existing user !");
     });
     test("uploadTimer should throw an error when trying to create a Timer with a negative reactionTime", async () => {
         await expect(TimerService.uploadTimer(-12, userId)).rejects.toThrow(
-            "The timer can't be lower or equal to 0 !",
+            "The timer can't be lower or equal to 0 !"
         );
     });
 });
@@ -71,7 +71,7 @@ describe("getUserTimers tests...", () => {
         expect(timers.length).toBe(0);
     });
     test("getUserTimers should return 1 timer after uploading one", async () => {
-        const reactionTime = randomInt(25);
+        const reactionTime = 13.4;
         await Timer.create({ reactionTime: reactionTime, user: userId });
 
         const timers = await TimerService.getUserTimers(userId);
@@ -83,15 +83,15 @@ describe("getUserTimers tests...", () => {
     test("getUserTimers should throw an error when trying to get the timers for a non-existing user", async () => {
         await expect(
             TimerService.getUserTimers(
-                new mongoose.Types.ObjectId("123456789012345678901234"),
-            ),
+                new mongoose.Types.ObjectId("123456789012345678901234")
+            )
         ).rejects.toThrow("You can't get the Timers for a non-existing user !");
     });
 });
 
 describe("clearUserTimers tests...", () => {
     test("clearUserTimers should return an object {acknowledged: true, deletedCount: n} after deleting the timers a user has", async () => {
-        const reactionTime = randomInt(25);
+        const reactionTime = 0.001;
         await Timer.create({ reactionTime: reactionTime, user: userId });
 
         const response = await TimerService.clearUserTimers(userId);
@@ -102,8 +102,8 @@ describe("clearUserTimers tests...", () => {
     test("clearUserTimers should throw an error when trying to delete the timers for a non-existing user", async () => {
         await expect(
             TimerService.clearUserTimers(
-                new mongoose.Types.ObjectId("123456789012345678901234"),
-            ),
+                new mongoose.Types.ObjectId("123456789012345678901234")
+            )
         ).rejects.toThrow("You can't delete Timers for a non-existing user !");
     });
 });
