@@ -17,8 +17,7 @@ beforeAll(async () => {
     await mongoose.connect(`${process.env.DATABASE_URL}_tests_timer`);
     const user = new User({
         username: "Test",
-        email: "test@test.test",
-        password: "test"
+        email: "test@test.test"
     });
     await user.save();
     userId = user._id as mongoose.Types.ObjectId;
