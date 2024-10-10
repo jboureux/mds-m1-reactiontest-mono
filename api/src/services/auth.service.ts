@@ -1,10 +1,9 @@
-import User from "../models/user.models";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
-const jwtKey = process.env.JWT_SECRET || "secret";
+import User from "../models/user.models";
 
 const generateToken = (id: string, email: string) => {
+    const jwtKey = process.env.JWT_SECRET || "secret";
     return jwt.sign({ id, email }, jwtKey, {
         expiresIn: "30m",
     });
@@ -20,8 +19,8 @@ const loginUser = async (email: string, password: string) => {
     if (!isPasswordValid) {
         throw new Error("Invalid credentials");
     }
-
     const token = generateToken(user.id.toString(), user.email);
+
     return { token };
 };
 
@@ -43,9 +42,6 @@ const registerUser = async (
 
     const savedUser = await newUser.save();
     const token = generateToken(savedUser.id.toString(), savedUser.email);
-
-    savedUser.token = token;
-    await savedUser.save();
 
     return { token, savedUser };
 };
