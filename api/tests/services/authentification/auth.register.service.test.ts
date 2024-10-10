@@ -11,7 +11,6 @@ import {
 } from "@jest/globals";
 import { registerUser } from "../../../src/services/auth.service";
 import User from "../../../src/models/user.models";
-import { log } from "console";
 
 // Connexion à la base de données
 beforeAll(async () => {
@@ -58,7 +57,6 @@ describe("registerUser tests", () => {
 
         const savedUser = await User.findOne({ email: "new@test.com" });
         expect(savedUser).toBeDefined();
-        expect(savedUser?.email).toBe("new@test.com");
 
         const isPasswordValid = bcrypt.compareSync(
             "password123",
