@@ -24,7 +24,7 @@ router.post("/submit", async (req, res) => {
         return;
     }
     const bearerToken = req.headers.authorization;
-    const decodedToken = validateToken(bearerToken.replace(/Bearer\ /, ""));
+    const decodedToken = validateToken(bearerToken.replace(/Bearer /, ""));
 
     if (!decodedToken.valid) {
         res.status(401).send({
@@ -55,7 +55,7 @@ router.get("/me", async (req, res) => {
     }
 
     const bearerToken = req.headers.authorization;
-    const decodedToken = validateToken(bearerToken.replace(/Bearer\ /, ""));
+    const decodedToken = validateToken(bearerToken.replace(/Bearer /, ""));
 
     if (!decodedToken.valid) {
         res.status(401).send({
@@ -86,7 +86,7 @@ router.delete("/clear", async (req, res) => {
     }
 
     const bearerToken = req.headers.authorization;
-    const decodedToken = validateToken(bearerToken.replace(/Bearer\ /, ""));
+    const decodedToken = validateToken(bearerToken.replace(/Bearer /, ""));
 
     if (!decodedToken.valid) {
         res.status(401).send({
