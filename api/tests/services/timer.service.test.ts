@@ -6,6 +6,7 @@ import {
     expect,
     test
 } from "@jest/globals";
+import { randomUUID } from "crypto";
 import mongoose from "mongoose";
 import Timer from "../../src/models/timer.models";
 import User from "../../src/models/user.models";
@@ -17,7 +18,8 @@ beforeAll(async () => {
     await mongoose.connect(`${process.env.DATABASE_URL}_tests_timer`);
     const user = new User({
         username: "Test",
-        email: "test@test.test"
+        email: "test@test.test",
+        password: randomUUID()
     });
     await user.save();
     userId = user._id as mongoose.Types.ObjectId;
