@@ -6,7 +6,6 @@ import {
     expect,
     test
 } from "@jest/globals";
-import { randomInt } from "crypto";
 import mongoose from "mongoose";
 import Timer from "../../src/models/timer.models";
 import User from "../../src/models/user.models";
@@ -35,7 +34,7 @@ describe("uploadTimer tests...", () => {
         await Timer.deleteMany({});
     });
     test("a Timer object should be present in database after saving a new Timer", async () => {
-        const reactionTime = randomInt(25);
+        const reactionTime = 25.2;
         await TimerService.uploadTimer(reactionTime, userId);
 
         const uploadedTimer = await Timer.findOne({
@@ -71,7 +70,7 @@ describe("getUserTimers tests...", () => {
         expect(timers.length).toBe(0);
     });
     test("getUserTimers should return 1 timer after uploading one", async () => {
-        const reactionTime = randomInt(25);
+        const reactionTime = 13.4;
         await Timer.create({ reactionTime: reactionTime, user: userId });
 
         const timers = await TimerService.getUserTimers(userId);
@@ -91,7 +90,7 @@ describe("getUserTimers tests...", () => {
 
 describe("clearUserTimers tests...", () => {
     test("clearUserTimers should return an object {acknowledged: true, deletedCount: n} after deleting the timers a user has", async () => {
-        const reactionTime = randomInt(25);
+        const reactionTime = 0.001;
         await Timer.create({ reactionTime: reactionTime, user: userId });
 
         const response = await TimerService.clearUserTimers(userId);
