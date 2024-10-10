@@ -12,7 +12,6 @@ import {
 import { registerUser } from "../../../src/services/auth.service";
 import User from "../../../src/models/user.models";
 
-
 // Connexion à la base de données
 beforeAll(async () => {
     await mongoose.connect(`${process.env.DATABASE_URL}_test_users`, {});
